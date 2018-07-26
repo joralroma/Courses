@@ -1,0 +1,176 @@
+<div class="content-img-bg">
+
+</div>
+
+<div class="container-fluid">
+
+  <div class="container container-fluid__item">
+    <div class="row item-content">
+
+      <div class="body my-auto">
+        <div class="row">
+
+          <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 container-form center">
+            <div class="container px-0 container-form__item center">
+              <div class="content-form center">
+                <div class="container">
+                  <div class="register">
+                    <header class="header"> <strong>Registro de Cursos</strong> </header>
+                    <div class="content p-3 content-register">
+                      <div class="row">
+                        <div class="col col-12">
+                          <form #formRegister="ngForm" (ngSubmit)="saveNewCourse(formRegister)">
+                            <div class="form-group label-floating is-empty is-focused container-input">
+                              <label class="control-label option-placeholder">Tipo</label>
+                              <label class="form-control option-input" name="TypeCourse">{{typeCourseSelect.name}}</label>
+                              <i class="fa fa-angle-down icon_select type"></i>
+                              <div class="container-options-select">
+                                <div class="content">
+                                  <a class="opt__item center" *ngFor="let type of listTypeCourses" (click)="typeCourseSelect = type">{{type.name}}</a>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="form-group label-floating is-empty container-input" [ngClass]="{'is-focused': formRegister.value.NameCourse || focusInputsRegister.name}">
+                              <label class="control-label option-placeholder">Nombre</label>
+                              <input #NameCourse="ngModel" class="form-control option-input" type="text" name="NameCourse" ngModel required (focus)="focusInputsRegister.name = true" (blur)="focusInputsRegister.name = false">
+                              <span class="material-input" *ngIf="!NameCourse.valid && NameCourse.touched">Campo Inválido</span>
+                            </div>
+                            <div class="form-group label-floating is-empty container-input" [ngClass]="{'is-focused': formRegister.value.Description || focusInputsRegister.description}">
+                              <label class="control-label option-placeholder">Descripción</label>
+                              <input #Description="ngModel" class="form-control option-input" type="text" name="Description" ngModel required (focus)="focusInputsRegister.description = true" (blur)="focusInputsRegister.description = false">
+                              <span class="material-input" *ngIf="!Description.valid && Description.touched">Campo Inválido</span>
+                            </div>
+                            <div class="form-group label-floating is-empty container-input" [ngClass]="{'is-focused': formRegister.value.DurationTotal || focusInputsRegister.durationTotal}">
+                              <label class="control-label option-placeholder">Duración</label>
+                              <input #DurationTotal="ngModel"  class="form-control option-input" type="number" name="DurationTotal" ngModel required (focus)="focusInputsRegister.durationTotal = true" (blur)="focusInputsRegister.durationTotal = false">
+                              <span class="material-input" *ngIf="!DurationTotal.valid && DurationTotal.touched">Campo Inválido</span>
+                            </div>
+                            <div class="form-group label-floating is-empty container-input" [ngClass]="{'is-focused': formRegister.value.NoRegisterMinE || focusInputsRegister.noRegisterMinE}">
+                              <label class="control-label option-placeholder">NoRegisterMinE</label>
+                              <input #NoRegisterMinE="ngModel" class="form-control option-input" type="text" name="NoRegisterMinE" ngModel required (focus)="focusInputsRegister.noRegisterMinE = true" (blur)="focusInputsRegister.noRegisterMinE = false">
+                              <span class="material-input" *ngIf="!NoRegisterMinE.valid && NoRegisterMinE.touched">Campo Inválido</span>
+                            </div>
+                            <div class="form-group label-floating is-empty container-input" [ngClass]="{'is-focused': formRegister.value.NoRegisterMIL || focusInputsRegister.noRegisterMil}">
+                              <label class="control-label option-placeholder">NoRegisterMIL</label>
+                              <input #NoRegisterMIL="ngModel" class="form-control option-input" type="text" name="NoRegisterMIL" ngModel required (focus)="focusInputsRegister.noRegisterMil = true" (blur)="focusInputsRegister.noRegisterMil = false">
+                              <span class="material-input" *ngIf="!NoRegisterMIL.valid && NoRegisterMIL.touched">Campo Inválido</span>
+                            </div>
+                            <div class="container-checkbox">
+                              <div class="checkbox">
+                                <label class="center">
+                                  <input class="optionsCheckboxes" type="checkbox" name="IsMilitar" ngModel>
+                                  <span class="checkbox-material">¿IsMilitar?</span>
+                                </label>
+                              </div>
+                            </div>
+                            <button type="submit" class="btn btn-lg btn-dark full-width py-3 btn-login" [disabled]="!typeCourseSelect.id || !formRegister.valid">Crear Curso</button>
+                            <div class="or"></div>
+                            <p class="footer-text-register">
+                              <a href="#"> ¡Recuerda!</a>
+                              Puedes ver todos los cursos creados.
+                              Tambien puedes ver con detalle cada curso.
+                            </p>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 container-form center">
+            <div class="container px-0 container-form__item center">
+              <div class="content-form center">
+                <div class="container p-0">
+                  <div class="register">
+                    <header class="header"> <strong>Listado de Cursos</strong> </header>
+                    <div class="content p-3 content-list">
+                      <div id="top-list"></div>
+                      <div class="row">
+                        <div class="col col-12">
+                          <div class="table-responsive">
+                            <table class="table table-hover">
+                              <thead>
+                                <tr>
+                                  <th scope="col">#</th>
+                                  <th scope="col">Nombre</th>
+                                  <th scope="col">Descripción</th>
+                                  <th scope="col">Ver</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let course of listCourses; let i = index" >
+                                  <th scope="row">{{i+1}}</th>
+                                  <td>{{course.name}}</td>
+                                  <td>{{course.description}}</td>
+                                  <td class="center max-none">
+                                    <button type="button" class="btn btn-outline-primary" (click)="courseActivated = course; stateModalView = true"><i class="far fa-eye"></i></button>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+  <!-- Modal Curso-->
+<div class="modal fade bd-example-modal-lg" [ngClass]="{'show': stateModalView}" tabindex="-1">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Curso: <h6 class="text-primary text-uppercase d-inline-block">{{courseActivated.name}}</h6> </h5>
+      </div>
+      <div class="modal-body">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Tipo</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Descripción</th>
+                  <th scope="col">Duración</th>
+                  <th scope="col">NoRegisterMinE</th>
+                  <th scope="col">NoRegisterMIL</th>
+                  <th scope="col">IsMilitar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">{{courseActivated.typeCourse}}</th>
+                  <td>{{courseActivated.name}}</td>
+                  <td>{{courseActivated.description}}</td>
+                  <td>{{courseActivated.durationTotal}}</td>
+                  <td>{{courseActivated.noRegisterMinE}}</td>
+                  <td>{{courseActivated.noRegisterMil}}</td>
+                  <td class="center max-none">
+                    <button type="button" class="btn btn-outline-primary" *ngIf="courseActivated.isMilitar"><i class="fas fa-check"></i></button>
+                    <button type="button" class="btn btn-outline-danger" *ngIf="!courseActivated.isMilitar"><i class="fas fa-ban"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="stateModalView = false">Salir</button>
+      </div>
+    </div>
+  </div>
+</div>
